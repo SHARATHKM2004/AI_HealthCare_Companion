@@ -81,10 +81,6 @@ total_cost = show_cart()
 
 # Button to proceed to the details section
 if st.button("Proceed to Buy"):
-    st.session_state.proceed_to_buy = True  # Set the session state to True
-
-# Show the details section only if "Proceed to Buy" was clicked
-if st.session_state.proceed_to_buy:
     st.subheader("Fill Your Details")
     name = st.text_input("Name")
     contact_info = st.text_input("Contact Info")
@@ -99,9 +95,8 @@ if st.session_state.proceed_to_buy:
             qr_image = generate_qr(payment_link)
             st.image(qr_image)
             st.success("Order Confirmed! Your QR Code for payment is shown above.")
-            # Optionally, save the order details to a database or CSV
-            # Clear cart and reset session state after order confirmation
+            # Optionally, you can add code to save the order details to a database or CSV
+            # Clear cart after order confirmation
             st.session_state.cart.clear()
-            st.session_state.proceed_to_buy = False
         else:
-            st.warning("Please fill in all details and add items to your cart before confirming the order.")
+            st.warning("Please fill in all details and add items to your cart before confirming the order.")
