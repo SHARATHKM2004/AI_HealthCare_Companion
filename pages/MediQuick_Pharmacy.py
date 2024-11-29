@@ -7,13 +7,21 @@ import io
 # Sample data for medicines and eco-friendly products
 products = {
     'Medicines': [
-        {'name': 'Paracetamol', 'cost': 20, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUTEhMVFhUVGBUYGBUXGBcXGBgX..."},
-        {'name': 'Ibuprofen', 'cost': 30, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUTEhMVFhUVGBUYGBUXGBcXGBgX..."},
+        {'name': 'Paracetamol', 'cost': 20, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Ibuprofen', 'cost': 30, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Aspirin', 'cost': 15, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Cetirizine', 'cost': 25, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Amoxicillin', 'cost': 50, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
     ],
     'Eco-Friendly Products': [
-        {'name': 'Bamboo Toothbrush', 'cost': 100, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUTEhMVFhUVGBUYGBUXGBcXGBgX..."},
-        {'name': 'Reusable Straw', 'cost': 50, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUTEhMVFhUVGBUYGBUXGBcXGBgX..."},
+        {'name': 'Bamboo Toothbrush', 'cost': 100, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Reusable Straw', 'cost': 50, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Cloth Bag', 'cost': 80, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Recycled Paper Notebook', 'cost': 120, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Compostable Cups', 'cost': 70, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
     ]
+
+
 }
 
 # Function to display products
