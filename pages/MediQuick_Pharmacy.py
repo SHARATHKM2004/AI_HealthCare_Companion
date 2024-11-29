@@ -4,7 +4,7 @@ import qrcode
 from PIL import Image
 import io
 
-# Sample data for medicines and eco-friendly products
+# Sample data for medicines and eco-friend
 products = {
     'Medicines': [
         {'name': 'Paracetamol', 'cost': 20, 'image': "https://www.google.com/imgres?q=paracetamol&imgurl=https%3A%2F%2F5.imimg.com%2Fdata5%2FSELLER%2FDefault%2F2022%2F9%2FQR%2FAF%2FMV%2F69966959%2Fparacip-paracetamol-650-tablet.jpg&imgrefurl=https%3A%2F%2Fwww.indiamart.com%2Fproddetail%2Fparacetamol-tablets-500-mg-26560013348.html&docid=yfHNNJS9mMsJsM&tbnid=RshYnZ-whyQHwM&vet=12ahUKEwjv0pC4u4KKAxWaXmwGHYfDAUkQM3oECBUQAA..i&w=2000&h=2000&hcb=2&ved=2ahUKEwjv0pC4u4KKAxWaXmwGHYfDAUkQM3oECBUQAA"},
