@@ -8,3 +8,8 @@ torch
 torchvision
 numpy
 altair
+fpdf
+qrcode
+geopy
+nltk
+
