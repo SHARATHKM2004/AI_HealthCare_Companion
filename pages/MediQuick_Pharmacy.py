@@ -6,8 +6,8 @@ from PIL import Image
 class EcoMarket:
     def __init__(self):
         self.products = [
-    {"id": 1, "name": "Reusable Water Bottle", "price": 15, "description": "Stainless steel, BPA-free bottle", "image": "C:\\Users\\shara\\OneDrive\\Pictures\\Screenshots\\Screenshot 2024-11-23 114137.png"},
-    {"id": 2, "name": "Bamboo Toothbrush Set", "price": 10, "description": "Pack of 4 biodegradable toothbrushes", "image": "C:\\Users\\shara\\OneDrive\\Pictures\\Screenshots\\Screenshot 2024-11-07 191627.png"},
+    {"id": 1, "name": "Reusable Water Bottle", "price": 15, "description": "Stainless steel, BPA-free bottle", "image": "https://www.google.com/imgres?q=IMAGES&imgurl=https%3A%2F%2Fwww.shutterstock.com%2Fimage-photo%2Fcalm-weather-on-sea-ocean-600nw-2212935531.jpg&imgrefurl=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fbackground&docid=ICn889JPjZ6CCM&tbnid=O60LdRXewHbkcM&vet=12ahUKEwjvnL-RsYKKAxWIT2wGHV1CBCIQM3oECBcQAA..i&w=600&h=400&hcb=2&itg=1&ved=2ahUKEwjvnL-RsYKKAxWIT2wGHV1CBCIQM3oECBcQAA"},
+    {"id": 2, "name": "Bamboo Toothbrush Set", "price": 10, "description": "Pack of 4 biodegradable toothbrushes", "image": "https://www.google.com/imgres?q=IMAGES&imgurl=https%3A%2F%2Fwww.shutterstock.com%2Fimage-photo%2Fcalm-weather-on-sea-ocean-600nw-2212935531.jpg&imgrefurl=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fbackground&docid=ICn889JPjZ6CCM&tbnid=O60LdRXewHbkcM&vet=12ahUKEwjvnL-RsYKKAxWIT2wGHV1CBCIQM3oECBcQAA..i&w=600&h=400&hcb=2&itg=1&ved=2ahUKEwjvnL-RsYKKAxWIT2wGHV1CBCIQM3oECBcQAA"},
         ]
 
         # Initializing session state variables if not present
