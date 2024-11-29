@@ -2,28 +2,32 @@ import streamlit as st
 import pandas as pd
 import qrcode
 from PIL import Image
+import os
 import io
 
 # Sample data for medicines and eco-friendly products
 products = {
     'Medicines': [
-        {'name': 'Paracetamol', 'cost': 20, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
-        {'name': 'Ibuprofen', 'cost': 30, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
+        {'name': 'Paracetamol', 'cost': 20, 'image': "C:/Users/shara/OneDrive/Desktop/WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
+        {'name': 'Ibuprofen', 'cost': 30, 'image': "C:/Users/shara/OneDrive/Desktop/WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
     ],
     'Eco-Friendly Products': [
-        {'name': 'Bamboo Toothbrush', 'cost': 10, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
-        {'name': 'Reusable Straw', 'cost': 5, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
+        {'name': 'Bamboo Toothbrush', 'cost': 10, 'image': "C:/Users/shara/OneDrive/Desktop/WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
+        {'name': 'Reusable Straw', 'cost': 5, 'image': "C:/Users/shara/OneDrive/Desktop/WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
     ]
 }
 
-# Function to display products
+# Function to validate image paths and display products
 def display_products(products):
     for category, items in products.items():
         st.header(category)
         for item in items:
             col1, col2, col3 = st.columns([2, 1, 1])
             with col1:
-                st.image(item['image'], width=150)
+                if os.path.exists(item['image']):
+                    st.image(item['image'], width=150)
+                else:
+                    st.warning(f"Image not found for {item['name']}")
             with col2:
                 st.write(item['name'])
                 st.write(f"Price: ₹{item['cost']}")
@@ -32,7 +36,7 @@ def display_products(products):
                     st.session_state.cart.append(item)
                     st.success(f"{item['name']} added to cart!")
 
-# Function to show cart
+# Function to show the cart
 def show_cart():
     st.subheader("Your Cart")
     if not st.session_state.cart:
@@ -45,7 +49,7 @@ def show_cart():
         st.write(f"Total: ₹{total_cost}")
     return total_cost  # Return the total cost for use later
 
-# Function to generate QR code for payment
+# Function to generate a QR code for payment
 def generate_qr(payment_link):
     qr = qrcode.make(payment_link)
     buf = io.BytesIO()
@@ -53,7 +57,7 @@ def generate_qr(payment_link):
     buf.seek(0)
     return Image.open(buf)
 
-# Initialize session state for cart
+# Initialize session state for the cart
 if 'cart' not in st.session_state:
     st.session_state.cart = []
 
@@ -68,9 +72,9 @@ total_cost = show_cart()
 # User details and order confirmation
 if st.button("Proceed to Buy"):
     st.subheader("Fill Your Details")
-    name = st.text_input("Name")
-    contact_info = st.text_input("Contact Info")
-    address = st.text_area("Address")
+    name = st.text_input("Name", placeholder="Enter your name")
+    contact_info = st.text_input("Contact Info", placeholder="Enter your contact details")
+    address = st.text_area("Address", placeholder="Enter your delivery address")
     medical_report = st.file_uploader("Upload Medical Report (if any)", type=["jpg", "jpeg", "png", "pdf"])
 
     if st.button("Confirm Order"):
@@ -79,11 +83,13 @@ if st.button("Proceed to Buy"):
             # Generate payment link and QR code
             payment_link = f"http://example.com/pay?amount={total_cost}"
             qr_image = generate_qr(payment_link)
-            st.image(qr_image)
+            st.image(qr_image, caption="Scan to Pay")
             st.success("Order Confirmed! Your QR Code for payment is shown above.")
-            # Optionally, you can add code to save the order details to a database or CSV
+            st.info(f"Total Payment: ₹{total_cost}")
+            
+            # Optionally, save the order details to a database or CSV
+            
             # Clear cart after order confirmation
             st.session_state.cart.clear()
         else:
             st.warning("Please fill in all details and add items to your cart before confirming the order.")
-
