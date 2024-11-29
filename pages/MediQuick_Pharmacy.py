@@ -7,12 +7,12 @@ import io
 # Sample data for medicines and eco-friendly products
 products = {
     'Medicines': [
-        {'name': 'Paracetamol', 'cost': 20, 'image': "C:\Users\shara\OneDrive\Desktop\Screenshot 2024-10-26 001639.png"},
-        {'name': 'Ibuprofen', 'cost': 30, 'image': "C:\Users\shara\OneDrive\Desktop\Screenshot 2024-10-26 001804.png"},
+        {'name': 'Paracetamol', 'cost': 20, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
+        {'name': 'Ibuprofen', 'cost': 30, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
     ],
     'Eco-Friendly Products': [
-        {'name': 'Bamboo Toothbrush', 'cost': 10, 'image': "C:\Users\shara\OneDrive\Desktop\Screenshot 2024-10-26 002012.png"},
-        {'name': 'Reusable Straw', 'cost': 5, 'image': "C:\Users\shara\OneDrive\Desktop\Screenshot 2024-10-26 002130.png"},
+        {'name': 'Bamboo Toothbrush', 'cost': 10, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
+        {'name': 'Reusable Straw', 'cost': 5, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
     ]
 }
 
