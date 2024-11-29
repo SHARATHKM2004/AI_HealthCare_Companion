@@ -160,14 +160,12 @@ st.sidebar.markdown("### Features:")
 st.sidebar.markdown("- 📝 **Personalized Diet Plans**")
 st.sidebar.markdown("- 📄 **Downloadable PDFs**")
 st.sidebar.markdown("- 💡 **Health Tips**")
-st.sidebar.image(r"C:\Users\shara\OneDrive\Desktop\WhatsApp Image 2024-11-29 at 21.54.59_3918f1b5.jpg", caption="Your Health Companion")
 
 st.sidebar.info("**Tip:** Select symptoms to get personalized dietary advice.")
 
 # Header Section
 st.title("🍎 Personalized Diet Plan Generator")
 st.markdown("### Your companion for a healthier lifestyle")
-st.image(r"C:\Users\shara\OneDrive\Desktop\WhatsApp Image 2024-11-29 at 22.27.48_d20f2435.jpg", use_column_width=True)
 
 # Collecting patient details
 with st.container():
