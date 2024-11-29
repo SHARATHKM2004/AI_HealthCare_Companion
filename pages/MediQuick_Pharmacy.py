@@ -20,25 +20,25 @@ products = {
         {'name': 'Recycled Paper Notebook', 'cost': 120, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
         {'name': 'Compostable Cups', 'cost': 70, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
     ]
-
-
 }
 
 # Function to display products
 def display_products(products):
     for category, items in products.items():
         st.header(category)
-        for item in items:
-            col1, col2, col3 = st.columns([2, 1, 1])
-            with col1:
-                st.image(item['image'], width=150)
-            with col2:
-                st.write(item['name'])
-                st.write(f"Price: ₹{item['cost']}")
-            with col3:
-                if st.button('Add to Cart', key=item['name']):
-                    st.session_state.cart.append(item)
-                    st.success(f"{item['name']} added to cart!")
+        # Display products in rows of 2
+        for i in range(0, len(items), 2):
+            cols = st.columns(2)  # Create 2 columns
+            for j in range(2):
+                if i + j < len(items):
+                    item = items[i + j]
+                    with cols[j]:
+                        st.image(item['image'], width=150)
+                        st.write(f"**{item['name']}**")
+                        st.write(f"Price: ₹{item['cost']}")
+                        if st.button('Add to Cart', key=item['name']):
+                            st.session_state.cart.append(item)
+                            st.success(f"{item['name']} added to cart!")
 
 # Function to show cart
 def show_cart():
@@ -50,7 +50,7 @@ def show_cart():
         for item in st.session_state.cart:
             st.write(f"{item['name']} - ₹{item['cost']}")
             total_cost += item['cost']
-        st.write(f"Total: ₹{total_cost}")
+        st.write(f"**Total: ₹{total_cost}**")
     return total_cost  # Return the total cost for use later
 
 # Function to generate QR code for payment
@@ -93,3 +93,4 @@ if st.button("Proceed to Buy"):
             st.session_state.cart.clear()
         else:
             st.warning("Please fill in all details and add items to your cart before confirming the order.")
+
