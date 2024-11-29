@@ -12,6 +12,7 @@ products = {
         {'name': 'Aspirin', 'cost': 15, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
         {'name': 'Cetirizine', 'cost': 25, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
         {'name': 'Amoxicillin', 'cost': 50, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Antacid', 'cost': 40, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
     ],
     'Eco-Friendly Products': [
         {'name': 'Bamboo Toothbrush', 'cost': 100, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
@@ -19,7 +20,9 @@ products = {
         {'name': 'Cloth Bag', 'cost': 80, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
         {'name': 'Recycled Paper Notebook', 'cost': 120, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
         {'name': 'Compostable Cups', 'cost': 70, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
+        {'name': 'Eco-friendly Water Bottle', 'cost': 150, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
     ]
+
 }
 
 # Function to display products
