@@ -16,8 +16,6 @@ if "model_page_2" not in st.session_state:
     st.session_state["model_page_2"] = "tiiuae/falcon-180B-chat"
 
 # Add an image to the sidebar
-sidebar_image_url = r"C:\Users\shara\OneDrive\Desktop\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"  # Replace with your image URL or file path
-st.sidebar.image(sidebar_image_url, caption="Medical Chatbot", use_column_width=True)
 
 # Function to get response from the medical assistant API
 def get_response(prompt):
