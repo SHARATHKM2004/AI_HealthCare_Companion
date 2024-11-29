@@ -2,23 +2,22 @@ import streamlit as st
 import numpy as np
 import random
 import time
-import streamlit as st
 import requests
 from requests.exceptions import RequestException
-import random
 from nltk.chat.util import Chat, reflections
-
-
 
 API_KEY2 = "ai71-api-573ef5e3-71e1-471d-b8ed-68d6a69c492f"
 API_URL = "https://api.ai71.ai/v1/chat/completions"
-
 
 st.title("Medical Chatbot")
 
 # Set a default model (if needed)
 if "model_page_2" not in st.session_state:
     st.session_state["model_page_2"] = "tiiuae/falcon-180B-chat"
+
+# Add an image to the sidebar
+sidebar_image_url = r"C:\Users\shara\OneDrive\Desktop\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"  # Replace with your image URL or file path
+st.sidebar.image(sidebar_image_url, caption="Medical Chatbot", use_column_width=True)
 
 # Function to get response from the medical assistant API
 def get_response(prompt):
@@ -70,6 +69,7 @@ if prompt := st.chat_input("What is your medical concern?"):
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
         st.markdown(response)
+
 pairs = [
     [
         r"(.*)health(.*)",
@@ -84,7 +84,7 @@ pairs = [
         ["Coughing can be a symptom of various conditions. Do you have any other symptoms?", ]
     ],
     [
-        r"(.*)quit",
+        r"(.*)quit", 
         ["Goodbye! Take care.", ]
     ]
 ]
