@@ -1,9 +1,8 @@
 import streamlit as st
-import pandas as pd
-import qrcode
-from PIL import Image
 import os
 import io
+import qrcode
+from PIL import Image
 
 # Sample data for medicines and eco-friendly products
 products = {
@@ -17,7 +16,7 @@ products = {
     ]
 }
 
-# Function to validate image paths and display products
+# Function to display products
 def display_products(products):
     for category, items in products.items():
         st.header(category)
@@ -32,24 +31,24 @@ def display_products(products):
                 st.write(item['name'])
                 st.write(f"Price: ₹{item['cost']}")
             with col3:
-                if st.button('Add to Cart', key=item['name']):
+                if st.button(f"Add to Cart ({item['name']})"):
                     st.session_state.cart.append(item)
                     st.success(f"{item['name']} added to cart!")
 
 # Function to show the cart
 def show_cart():
     st.subheader("Your Cart")
+    total_cost = 0  # Initialize total_cost
     if not st.session_state.cart:
         st.write("Your cart is empty.")
     else:
-        total_cost = 0
         for item in st.session_state.cart:
             st.write(f"{item['name']} - ₹{item['cost']}")
             total_cost += item['cost']
         st.write(f"Total: ₹{total_cost}")
-    return total_cost  # Return the total cost for use later
+    return total_cost
 
-# Function to generate a QR code for payment
+# Function to generate QR code for payment
 def generate_qr(payment_link):
     qr = qrcode.make(payment_link)
     buf = io.BytesIO()
@@ -66,7 +65,7 @@ st.title("Medicines and Eco-Friendly Products Platform")
 # Display products
 display_products(products)
 
-# Show cart and get total cost
+# Show cart and calculate total cost
 total_cost = show_cart()
 
 # User details and order confirmation
@@ -78,18 +77,12 @@ if st.button("Proceed to Buy"):
     medical_report = st.file_uploader("Upload Medical Report (if any)", type=["jpg", "jpeg", "png", "pdf"])
 
     if st.button("Confirm Order"):
-        # Validate that all required fields are filled
         if name and contact_info and address and total_cost > 0:
-            # Generate payment link and QR code
             payment_link = f"http://example.com/pay?amount={total_cost}"
             qr_image = generate_qr(payment_link)
             st.image(qr_image, caption="Scan to Pay")
             st.success("Order Confirmed! Your QR Code for payment is shown above.")
             st.info(f"Total Payment: ₹{total_cost}")
-            
-            # Optionally, save the order details to a database or CSV
-            
-            # Clear cart after order confirmation
-            st.session_state.cart.clear()
+            st.session_state.cart.clear()  # Clear cart after order confirmation
         else:
             st.warning("Please fill in all details and add items to your cart before confirming the order.")
