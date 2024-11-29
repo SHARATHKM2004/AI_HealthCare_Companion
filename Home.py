@@ -18,6 +18,8 @@ import numpy as np
 from datetime import datetime
 import altair as alt
 from torchvision.models import resnet50, ResNet50_Weights
+from reportlab.lib.colors import Color
+
 
 # Using weights=ResNet50_Weights.DEFAULT to load pretrained weights
 model = resnet50(weights=ResNet50_Weights.DEFAULT)
@@ -96,49 +98,118 @@ def get_response(prompt):
         return "Sorry, there was an error processing your request."
 
 # Function to generate a PDF report
+from reportlab.lib.colors import Color
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.pdfgen import canvas
+from reportlab.platypus import PageTemplate, Frame
+from io import BytesIO
+
+def draw_border(canvas_obj, doc):
+    """
+    Draws a border on the canvas for each page.
+    """
+    width, height = letter
+    margin = 10  # Border margin
+    canvas_obj.setStrokeColor(Color(0, 0, 0))  # Black color for border
+    canvas_obj.setLineWidth(2)  # Border line width
+    canvas_obj.rect(margin, margin, width - 2 * margin, height - 2 * margin, stroke=1, fill=0)
+
+def on_page(canvas_obj, doc):
+    """
+    Draws the border and adds the title text at the top of each page.
+    """
+    draw_border(canvas_obj, doc)
+    width, height = letter
+
+    # Title text properties
+    title = "Mediquest - Your Health Companion"
+    canvas_obj.setFont("Helvetica-Bold", 22)  # Font size matches "Patient Report"
+    canvas_obj.setFillColor(Color(1, 0, 0))  # Red color
+    text_width = canvas_obj.stringWidth(title, "Helvetica-Bold", 22)
+    x_position = (width - text_width) / 2  # Center the text
+    y_position = height - 50
+
+    # Draw the text without underline
+    canvas_obj.drawString(x_position, y_position, title)
+
 def generate_pdf_report(patient_data, symptoms, analysis, pain_management, preventive_measures):
+    # Create a BytesIO buffer
     buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=72)
+    
+    # Initialize the PDF document
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=72,
+        leftMargin=72,
+        topMargin=72,
+        bottomMargin=72
+    )
     story = []
-    
+
+    # Define styles
     styles = getSampleStyleSheet()
-    title_style = styles['Title']
-    heading_style = styles['Heading2']
-    normal_style = styles['BodyText']
-    
-    # Title
+    title_style = ParagraphStyle(
+        'TitleStyle',
+        parent=styles['Title'],
+        fontSize=22,  # Font size matches the title
+        textColor=Color(0.1, 0.2, 0.5),  # Blueish color
+        spaceAfter=20
+    )
+    heading_style = ParagraphStyle(
+        'HeadingStyle',
+        parent=styles['Heading2'],
+        fontSize=16,
+        textColor=Color(0.2, 0.5, 0.2),  # Greenish color
+        spaceAfter=12
+    )
+    justified_style = ParagraphStyle(
+        'JustifiedStyle',
+        parent=styles['BodyText'],
+        alignment=TA_JUSTIFY,  # Justify the text
+        fontSize=10,
+        spaceAfter=8
+    )
+
+    # Add content to the story
     story.append(Paragraph("Patient Report", title_style))
     story.append(Spacer(1, 12))
-    
+
     # Patient Data
     story.append(Paragraph("Patient Data:", heading_style))
     for key, value in patient_data.items():
-        story.append(Paragraph(f"{key}: {value}", normal_style))
+        story.append(Paragraph(f"<b>{key}:</b> {value}", justified_style))
     story.append(Spacer(1, 12))
-    
+
     # Symptoms
     story.append(Paragraph("Symptoms:", heading_style))
-    story.append(Paragraph(symptoms, normal_style))
+    story.append(Paragraph(symptoms, justified_style))
     story.append(Spacer(1, 12))
-    
+
     # Analysis
     story.append(Paragraph("Analysis:", heading_style))
-    story.append(Paragraph(analysis, normal_style))
+    story.append(Paragraph(analysis, justified_style))
     story.append(Spacer(1, 12))
-    
+
     # Pain Management Advice
     story.append(Paragraph("Pain Management Advice:", heading_style))
-    story.append(Paragraph(pain_management, normal_style))
+    story.append(Paragraph(pain_management, justified_style))
     story.append(Spacer(1, 12))
-    
+
     # Preventive Measures
     story.append(Paragraph("Preventive Measures:", heading_style))
-    story.append(Paragraph(preventive_measures, normal_style))
+    story.append(Paragraph(preventive_measures, justified_style))
 
-    # Build PDF
-    doc.build(story)
-    buffer.seek(0)
+    # Add border and title to all pages
+    doc.build(story, onFirstPage=on_page, onLaterPages=on_page)
+
+    # Return the buffer
+    buffer.seek(0)  # Move pointer to the beginning of the buffer
     return buffer
+
 
 # Function to visualize symptoms using a bar chart
 def visualize_symptoms(symptom_history):
@@ -189,12 +260,47 @@ if 'pain_history' not in st.session_state:
 # Create tabs for different sections
 st.markdown("""
     <h1 style='text-align: center; font-family: Verdana, sans-serif; color: #2C3E50;'>
-    ➕ MedQuest
+    ➕ MediQuest
     </h1>
-    <p style='text-align: center; font-size: 18px; color: #7F8C8D;'>
-    Your Health Companion for Symptom Tracking and Analysis
-    </p>
     """, unsafe_allow_html=True)
+# Add scrolling text at the top of the page
+st.markdown("""
+    <style>
+        .scrolling-box {
+            width: 100%;
+            background-color: #f5f5f5; /* Light gray background */
+            border: 2px solid #FF0000; /* Red border */
+            padding: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .scrolling-text {
+            font-size: 20px;
+            font-family: Verdana, sans-serif;
+            color: #FF0000; /* Red color */
+            white-space: nowrap;
+            display: inline-block;
+            animation: scroll-left 15s linear infinite; /* Slow scrolling */
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(100%); /* Start from the right */
+            }
+            100% {
+                transform: translateX(-100%); /* Move completely to the left */
+            }
+        }
+    </style>
+    <div class="scrolling-box">
+        <div class="scrolling-text">
+            <span>"➕MediQuest - AI-Enhanced Symptom Tracking for Informed Health Decisions."</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 tab1, tab2, tab3= st.tabs(["Symptom Tracker", "Medical Image Analysis", "Reports & Visualizations"])
 
 # Symptom Tracker Tab
