@@ -1,88 +1,146 @@
 import streamlit as st
-import pandas as pd
 import qrcode
+from io import BytesIO
 from PIL import Image
-import io
 
-# Sample data for medicines and eco-friendly products
-products = {
-    'Medicines': [
-        {'name': 'Paracetamol', 'cost': 20, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
-        {'name': 'Ibuprofen', 'cost': 30, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
-    ],
-    'Eco-Friendly Products': [
-        {'name': 'Bamboo Toothbrush', 'cost': 10, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
-        {'name': 'Reusable Straw', 'cost': 5, 'image': "C:\\Users\\shara\\OneDrive\\Desktop\\WhatsApp Image 2024-11-29 at 22.09.50_edb34354.jpg"},
-    ]
-}
+class EcoMarket:
+    def __init__(self):
+        self.products = [
+    {"id": 1, "name": "Reusable Water Bottle", "price": 15, "description": "Stainless steel, BPA-free bottle", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114137.png"},
+    {"id": 2, "name": "Bamboo Toothbrush Set", "price": 10, "description": "Pack of 4 biodegradable toothbrushes", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-07 191627.png"},
+    {"id": 3, "name": "Cotton Tote Bag", "price": 8, "description": "Eco-friendly reusable shopping bag", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114319.png"},
+    {"id": 4, "name": "Solar Phone Charger", "price": 25, "description": "Portable solar-powered phone charger", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114449.png"},
+    {"id": 5, "name": "Beeswax Food Wraps", "price": 12, "description": "Set of 3 reusable food wraps", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114539.png"},
+    {"id": 6, "name": "Compostable Trash Bags", "price": 20, "description": "Roll of 50 compostable trash bags", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114648.png"},
+    {"id": 7, "name": "Stainless Steel Straw Set", "price": 6, "description": "Pack of 4 reusable metal straws with cleaner", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114743.png"},
+    {"id": 8, "name": "Organic Cotton Face Cloths", "price": 15, "description": "Set of 6 washable face cloths", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114902.png"},
+    {"id": 9, "name": "Plant-Based Dish Soap", "price": 5, "description": "Eco-friendly and biodegradable dish soap", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 115005.png"},
+    {"id": 10, "name": "Recycled Notebook", "price": 7, "description": "Notebook made from 100% recycled paper", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 115108.png"}
+]
 
-# Function to display products
-def display_products(products):
-    for category, items in products.items():
-        st.header(category)
-        for item in items:
-            col1, col2, col3 = st.columns([2, 1, 1])
-            with col1:
-                st.image(item['image'], width=150)
-            with col2:
-                st.write(item['name'])
-                st.write(f"Price: ₹{item['cost']}")
-            with col3:
-                if st.button('Add to Cart', key=item['name']):
-                    st.session_state.cart.append(item)
-                    st.success(f"{item['name']} added to cart!")
+        # Initializing session state variables if not present
+        if 'cart' not in st.session_state:
+            st.session_state.cart = {}
+        if 'wishlist' not in st.session_state:
+            st.session_state.wishlist = set()
+        if 'order_confirmed' not in st.session_state:
+            st.session_state.order_confirmed = False
 
-# Function to show cart
-def show_cart():
-    st.subheader("Your Cart")
-    if not st.session_state.cart:
-        st.write("Your cart is empty.")
-    else:
-        total_cost = 0
-        for item in st.session_state.cart:
-            st.write(f"{item['name']} - ₹{item['cost']}")
-            total_cost += item['cost']
-        st.write(f"Total: ₹{total_cost}")
-    return total_cost  # Return the total cost for use later
-
-# Function to generate QR code for payment
-def generate_qr(payment_link):
-    qr = qrcode.make(payment_link)
-    buf = io.BytesIO()
-    qr.save(buf)
-    buf.seek(0)
-    return Image.open(buf)
-
-# Initialize session state for cart
-if 'cart' not in st.session_state:
-    st.session_state.cart = []
-
-st.title("Medicines and Eco-Friendly Products Platform")
-
-# Display products
-display_products(products)
-
-# Show cart and get total cost
-total_cost = show_cart()
-
-# User details and order confirmation
-if st.button("Proceed to Buy"):
-    st.subheader("Fill Your Details")
-    name = st.text_input("Name")
-    contact_info = st.text_input("Contact Info")
-    address = st.text_area("Address")
-    medical_report = st.file_uploader("Upload Medical Report (if any)", type=["jpg", "jpeg", "png", "pdf"])
-
-    if st.button("Confirm Order"):
-        # Validate that all required fields are filled
-        if name and contact_info and address and total_cost > 0:
-            # Generate payment link and QR code
-            payment_link = f"http://example.com/pay?amount={total_cost}"
-            qr_image = generate_qr(payment_link)
-            st.image(qr_image)
-            st.success("Order Confirmed! Your QR Code for payment is shown above.")
-            # Optionally, you can add code to save the order details to a database or CSV
-            # Clear cart after order confirmation
-            st.session_state.cart.clear()
+    def add_to_cart(self, product_id):
+        if product_id in st.session_state.cart:
+            st.session_state.cart[product_id] += 1
         else:
-            st.warning("Please fill in all details and add items to your cart before confirming the order.")
+            st.session_state.cart[product_id] = 1
+        st.success("Added to cart!")
+
+    def remove_from_cart(self, product_id):
+        if product_id in st.session_state.cart:
+            if st.session_state.cart[product_id] > 1:
+                st.session_state.cart[product_id] -= 1
+            else:
+                del st.session_state.cart[product_id]
+        st.success("Removed from cart!")
+
+    def toggle_wishlist(self, product_id):
+        if product_id in st.session_state.wishlist:
+            st.session_state.wishlist.remove(product_id)
+            st.success("Removed from wishlist!")
+        else:
+            st.session_state.wishlist.add(product_id)
+            st.success("Added to wishlist!")
+
+    def display_products(self):
+        st.title("🌿 Eco Market")
+        st.write("Browse our selection of eco-friendly products to reduce your carbon footprint!")
+
+        # Display products in a grid
+        cols = st.columns(2)
+        for idx, product in enumerate(self.products):
+            with cols[idx % 2]:
+                st.image(product['image'], use_column_width=True)
+                st.subheader(product['name'])
+                st.write(product['description'])
+                st.write(f"Price: ${product['price']}")
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("🛒 Add to Cart", key=f"add_{product['id']}"):
+                        self.add_to_cart(product['id'])
+                with col2:
+                    if st.button(f"{'❤' if product['id'] in st.session_state.wishlist else '🤍'} Wishlist", key=f"wish_{product['id']}"):
+                        self.toggle_wishlist(product['id'])
+                st.write("---")
+
+    def display_cart(self):
+        st.sidebar.title("🛒 Your Cart")
+        total = 0
+        for product_id, quantity in st.session_state.cart.items():
+            product = next((p for p in self.products if p['id'] == product_id), None)
+            if product:
+                st.sidebar.write(f"{product['name']} (x{quantity}): ${product['price'] * quantity}")
+                total += product['price'] * quantity
+                if st.sidebar.button("Remove", key=f"remove_{product_id}"):
+                    self.remove_from_cart(product_id)
+
+        st.sidebar.write(f"Total: ${total}")
+
+        # Proceed to checkout if the cart is not empty and order not confirmed
+        if total > 0 and not st.session_state.order_confirmed:
+            if st.sidebar.button("Proceed to Checkout"):
+                st.session_state.proceed_to_checkout = True
+
+        # Start checkout process if button is clicked
+        if 'proceed_to_checkout' in st.session_state and st.session_state.proceed_to_checkout:
+            self.checkout(total)
+
+    def display_wishlist(self):
+        st.sidebar.title("❤ Your Wishlist")
+        for product_id in st.session_state.wishlist:
+            product = next((p for p in self.products if p['id'] == product_id), None)
+            if product:
+                st.sidebar.write(f"{product['name']} - ${product['price']}")
+                if st.sidebar.button("Add to Cart", key=f"wishlist_add_{product_id}"):
+                    self.add_to_cart(product_id)
+                    st.sidebar.success(f"Added {product['name']} to cart!")
+
+    def checkout(self, total):
+        st.title("Checkout")
+        name = st.text_input("Full Name")
+        address = st.text_area("Address")
+        contact = st.text_input("Contact Number")
+        payment_method = st.radio("Choose Payment Method:", ["QR Code Payment", "Cash on Delivery"])
+
+        if st.button("Confirm Order"):
+            if name and address and contact:
+                if payment_method == "QR Code Payment":
+                    self.generate_qr_code(total)
+                else:
+                    st.success("Order Confirmed! Cash on Delivery selected.")
+                st.session_state.order_confirmed = True
+                st.session_state.proceed_to_checkout = False  # Reset checkout
+                self.show_final_confirmation()
+            else:
+                st.error("Please fill out all details.")
+
+    def generate_qr_code(self, total):
+        # Generate and display QR code for payment
+        qr_data = f"EcoMarket Payment: ${total}"
+        qr = qrcode.make(qr_data)
+        buffer = BytesIO()
+        qr.save(buffer)
+        buffer.seek(0)
+        qr_image = Image.open(buffer)
+        st.image(qr_image, caption="Scan to Pay", use_column_width=True)
+
+    def show_final_confirmation(self):
+        st.success("Your order has been confirmed! Thank you for shopping with us.")
+        st.write("🌍 Each small eco-friendly choice we make helps keep Bengaluru green and clean for generations to come!")
+        st.session_state.cart = {}  # Clear cart after confirmation
+
+    def display_market(self):
+        self.display_products()
+        self.display_cart()
+        self.display_wishlist()
+
+# Instantiate and run the app
+eco_market = EcoMarket()
+eco_market.display_market()
