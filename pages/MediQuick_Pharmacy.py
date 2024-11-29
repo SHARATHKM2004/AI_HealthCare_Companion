@@ -29,17 +29,18 @@ def display_products(products):
                     st.success(f"{item['name']} added to cart!")
 
 # Function to show cart
+# Function to show cart
 def show_cart():
     st.subheader("Your Cart")
+    total_cost = 0  # Initialize total_cost to 0
     if not st.session_state.cart:
         st.write("Your cart is empty.")
     else:
-        total_cost = 0
         for item in st.session_state.cart:
             st.write(f"{item['name']} - ₹{item['cost']}")
             total_cost += item['cost']
         st.write(f"Total: ₹{total_cost}")
-    return total_cost  # Return the total cost for use later
+    return total_cost  # Return the total cost for use later # Return the total cost for use later
 
 # Function to generate QR code for payment
 def generate_qr(payment_link):
