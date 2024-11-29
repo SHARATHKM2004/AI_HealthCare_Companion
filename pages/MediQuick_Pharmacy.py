@@ -6,17 +6,9 @@ from PIL import Image
 class EcoMarket:
     def __init__(self):
         self.products = [
-    {"id": 1, "name": "Reusable Water Bottle", "price": 15, "description": "Stainless steel, BPA-free bottle", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114137.png"},
-    {"id": 2, "name": "Bamboo Toothbrush Set", "price": 10, "description": "Pack of 4 biodegradable toothbrushes", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-07 191627.png"},
-    {"id": 3, "name": "Cotton Tote Bag", "price": 8, "description": "Eco-friendly reusable shopping bag", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114319.png"},
-    {"id": 4, "name": "Solar Phone Charger", "price": 25, "description": "Portable solar-powered phone charger", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114449.png"},
-    {"id": 5, "name": "Beeswax Food Wraps", "price": 12, "description": "Set of 3 reusable food wraps", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114539.png"},
-    {"id": 6, "name": "Compostable Trash Bags", "price": 20, "description": "Roll of 50 compostable trash bags", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114648.png"},
-    {"id": 7, "name": "Stainless Steel Straw Set", "price": 6, "description": "Pack of 4 reusable metal straws with cleaner", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114743.png"},
-    {"id": 8, "name": "Organic Cotton Face Cloths", "price": 15, "description": "Set of 6 washable face cloths", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 114902.png"},
-    {"id": 9, "name": "Plant-Based Dish Soap", "price": 5, "description": "Eco-friendly and biodegradable dish soap", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 115005.png"},
-    {"id": 10, "name": "Recycled Notebook", "price": 7, "description": "Notebook made from 100% recycled paper", "image": r"C:\Users\shara\OneDrive\Pictures\Screenshots\Screenshot 2024-11-23 115108.png"}
-]
+    {"id": 1, "name": "Reusable Water Bottle", "price": 15, "description": "Stainless steel, BPA-free bottle", "image": "C:\\Users\\shara\\OneDrive\\Pictures\\Screenshots\\Screenshot 2024-11-23 114137.png"},
+    {"id": 2, "name": "Bamboo Toothbrush Set", "price": 10, "description": "Pack of 4 biodegradable toothbrushes", "image": "C:\\Users\\shara\\OneDrive\\Pictures\\Screenshots\\Screenshot 2024-11-07 191627.png"},
+        ]
 
         # Initializing session state variables if not present
         if 'cart' not in st.session_state:
