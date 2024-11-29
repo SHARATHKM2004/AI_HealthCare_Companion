@@ -63,7 +63,28 @@ display_products(products)
 total_cost = show_cart()
 
 # User details and order confirmation
+# Initialize session state variables
+if 'proceed_to_buy' not in st.session_state:
+    st.session_state.proceed_to_buy = False  # To track if "Proceed to Buy" is clicked
+
+if 'cart' not in st.session_state:
+    st.session_state.cart = []
+
+# Display the title
+st.title("Medicines and Eco-Friendly Products Platform")
+
+# Display products
+display_products(products)
+
+# Show cart and get total cost
+total_cost = show_cart()
+
+# Button to proceed to the details section
 if st.button("Proceed to Buy"):
+    st.session_state.proceed_to_buy = True  # Set the session state to True
+
+# Show the details section only if "Proceed to Buy" was clicked
+if st.session_state.proceed_to_buy:
     st.subheader("Fill Your Details")
     name = st.text_input("Name")
     contact_info = st.text_input("Contact Info")
@@ -78,8 +99,9 @@ if st.button("Proceed to Buy"):
             qr_image = generate_qr(payment_link)
             st.image(qr_image)
             st.success("Order Confirmed! Your QR Code for payment is shown above.")
-            # Optionally, you can add code to save the order details to a database or CSV
-            # Clear cart after order confirmation
+            # Optionally, save the order details to a database or CSV
+            # Clear cart and reset session state after order confirmation
             st.session_state.cart.clear()
+            st.session_state.proceed_to_buy = False
         else:
             st.warning("Please fill in all details and add items to your cart before confirming the order.")
