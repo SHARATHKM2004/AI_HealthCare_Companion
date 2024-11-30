@@ -22,14 +22,12 @@ products = {
         {'name': 'Compostable Cups', 'cost': 70, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
         {'name': 'Eco-friendly Water Bottle', 'cost': 150, 'image': "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..."},
     ]
-
 }
 
 # Function to display products
 def display_products(products):
     for category, items in products.items():
         st.header(category)
-        # Display products in rows of 2
         for i in range(0, len(items), 2):
             cols = st.columns(2)  # Create 2 columns
             for j in range(2):
@@ -37,7 +35,7 @@ def display_products(products):
                     item = items[i + j]
                     with cols[j]:
                         st.image(item['image'], width=150)
-                        st.write(f"**{item['name']}**")
+                        st.write(f"{item['name']}")
                         st.write(f"Price: ₹{item['cost']}")
                         if st.button('Add to Cart', key=item['name']):
                             st.session_state.cart.append(item)
@@ -46,15 +44,15 @@ def display_products(products):
 # Function to show cart
 def show_cart():
     st.subheader("Your Cart")
-    total_cost = 0  # Initialize total_cost
+    total_cost = 0
     if not st.session_state.cart:
         st.write("Your cart is empty.")
     else:
         for item in st.session_state.cart:
             st.write(f"{item['name']} - ₹{item['cost']}")
             total_cost += item['cost']
-        st.write(f"**Total: ₹{total_cost}**")
-    return total_cost  # Return the total cost for use later
+        st.write(f"*Total: ₹{total_cost}*")
+    return total_cost
 
 # Function to generate QR code for payment
 def generate_qr(payment_link):
@@ -64,9 +62,12 @@ def generate_qr(payment_link):
     buf.seek(0)
     return Image.open(buf)
 
-# Initialize session state for cart
+# Initialize session state for cart and process flow
 if 'cart' not in st.session_state:
     st.session_state.cart = []
+
+if 'proceed_to_buy' not in st.session_state:
+    st.session_state.proceed_to_buy = False
 
 st.title("Medicines and Eco-Friendly Products Platform")
 
@@ -77,7 +78,7 @@ display_products(products)
 total_cost = show_cart()
 
 # User details and order confirmation
-if st.button("Proceed to Buy"):
+if st.session_state.proceed_to_buy:
     st.subheader("Fill Your Details")
     name = st.text_input("Name")
     contact_info = st.text_input("Contact Info")
@@ -85,15 +86,18 @@ if st.button("Proceed to Buy"):
     medical_report = st.file_uploader("Upload Medical Report (if any)", type=["jpg", "jpeg", "png", "pdf"])
 
     if st.button("Confirm Order"):
-        # Validate that all required fields are filled
         if name and contact_info and address and total_cost > 0:
-            # Generate payment link and QR code
             payment_link = f"http://example.com/pay?amount={total_cost}"
             qr_image = generate_qr(payment_link)
             st.image(qr_image)
             st.success("Order Confirmed! Your QR Code for payment is shown above.")
-            # Clear cart after order confirmation
             st.session_state.cart.clear()
+            st.session_state.proceed_to_buy = False
         else:
             st.warning("Please fill in all details and add items to your cart before confirming the order.")
-
+else:
+    if st.button("Proceed to Buy"):
+        if total_cost > 0:
+            st.session_state.proceed_to_buy = True
+        else:
+            st.warning("Your cart is empty. Please add items before proceeding.")
