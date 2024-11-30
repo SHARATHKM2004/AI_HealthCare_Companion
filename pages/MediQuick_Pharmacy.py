@@ -28,15 +28,18 @@ products = {
 def display_products(products):
     for category, items in products.items():
         st.header(category)
-        for i, item in enumerate(items):
+        for i in range(0, len(items), 2):
             cols = st.columns(2)  # Create 2 columns
-            with cols[i % 2]:  # Alternate between columns
-                st.image(item['image'], width=150)
-                st.write(f"{item['name']}")
-                st.write(f"Price: ₹{item['cost']}")
-                if st.button('Add to Cart', key=f"{category}_{i}"):
-                    st.session_state.cart.append(item)
-                    st.success(f"{item['name']} added to cart!")
+            for j in range(2):
+                if i + j < len(items):
+                    item = items[i + j]
+                    with cols[j]:
+                        st.image(item['image'], width=150)
+                        st.write(f"{item['name']}")
+                        st.write(f"Price: ₹{item['cost']}")
+                        if st.button('Add to Cart', key=item['name']):
+                            st.session_state.cart.append(item)
+                            st.success(f"{item['name']} added to cart!")
 
 # Function to show cart
 def show_cart():
@@ -48,7 +51,7 @@ def show_cart():
         for item in st.session_state.cart:
             st.write(f"{item['name']} - ₹{item['cost']}")
             total_cost += item['cost']
-        st.write(f"*Total: ₹{total_cost}*")
+        st.write(f"Total: ₹{total_cost}")
     return total_cost
 
 # Function to generate QR code for payment
@@ -97,23 +100,12 @@ if st.session_state.proceed_to_buy:
             and st.session_state.user_details['address']
             and total_cost > 0
         ):
-            st.subheader("Choose Payment Option")
-            payment_option = st.radio("Payment Options:", ["Cash on Delivery", "QR Scanner"])
-
-            if payment_option == "QR Scanner":
-                payment_link = f"http://example.com/pay?amount={total_cost}"
-                qr_image = generate_qr(payment_link)
-                st.image(qr_image)
-                st.success("Order Confirmed! Your QR Code for payment is shown above.")
-            elif payment_option == "Cash on Delivery":
-                st.success("Order Successfully Placed! You will receive it in 3 days.")
-
-            # Clear cart and reset process
+            payment_link = f"http://example.com/pay?amount={total_cost}"
+            qr_image = generate_qr(payment_link)
+            st.image(qr_image)
+            st.success("Order Confirmed! Your QR Code for payment is shown above.")
             st.session_state.cart.clear()
             st.session_state.proceed_to_buy = False
-
-            # Display an impressive thought
-            st.info("🌱 Every small step towards using eco-friendly products contributes to a healthier planet. Say no to plastic and yes to sustainability!")
         else:
             st.warning("Please fill in all details and add items to your cart before confirming the order.")
 else:
