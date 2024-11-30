@@ -62,12 +62,20 @@ def generate_qr(payment_link):
     buf.seek(0)
     return Image.open(buf)
 
-# Initialize session state for cart and process flow
+# Initialize session state for cart, process flow, and user details
 if 'cart' not in st.session_state:
     st.session_state.cart = []
 
 if 'proceed_to_buy' not in st.session_state:
     st.session_state.proceed_to_buy = False
+
+if 'user_details' not in st.session_state:
+    st.session_state.user_details = {
+        'name': '',
+        'contact_info': '',
+        'address': '',
+        'medical_report': None
+    }
 
 st.title("Medicines and Eco-Friendly Products Platform")
 
@@ -80,13 +88,18 @@ total_cost = show_cart()
 # User details and order confirmation
 if st.session_state.proceed_to_buy:
     st.subheader("Fill Your Details")
-    name = st.text_input("Name")
-    contact_info = st.text_input("Contact Info")
-    address = st.text_area("Address")
-    medical_report = st.file_uploader("Upload Medical Report (if any)", type=["jpg", "jpeg", "png", "pdf"])
+    st.session_state.user_details['name'] = st.text_input("Name", value=st.session_state.user_details['name'])
+    st.session_state.user_details['contact_info'] = st.text_input("Contact Info", value=st.session_state.user_details['contact_info'])
+    st.session_state.user_details['address'] = st.text_area("Address", value=st.session_state.user_details['address'])
+    st.session_state.user_details['medical_report'] = st.file_uploader("Upload Medical Report (if any)", type=["jpg", "jpeg", "png", "pdf"])
 
     if st.button("Confirm Order"):
-        if name and contact_info and address and total_cost > 0:
+        if (
+            st.session_state.user_details['name']
+            and st.session_state.user_details['contact_info']
+            and st.session_state.user_details['address']
+            and total_cost > 0
+        ):
             payment_link = f"http://example.com/pay?amount={total_cost}"
             qr_image = generate_qr(payment_link)
             st.image(qr_image)
