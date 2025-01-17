@@ -1,4 +1,5 @@
 # Advanced Doctor's Assistant Dashboard
+##App link-> https://aihealthcarecompanion-a8m4gvvm6vxs8r2mgsn5uy.streamlit.app/
 
 The Advanced Doctor's Assistant Dashboard is an interactive Streamlit application designed for comprehensive medical symptom tracking, medical image analysis, and detailed reporting. It leverages advanced technologies such as the Falcon 180B model for medical guidance and integrates machine learning models for analyzing medical images.
 
